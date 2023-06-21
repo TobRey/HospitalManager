@@ -1,0 +1,53 @@
+.navbar {
+  background-color: rgba(255, 255, 255, 0.384);
+  box-shadow: 0 8px 32px rgba(2, 4, 24, 0.589);
+}
+
+
+body {
+  background-image: url(/resources/img/b08b8418f4e7beb736978e16ae7489f8.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+}
+
+.white {
+  color: #ffffff;
+}
+
+.title-patient {
+  margin-top: 50px;
+  margin-bottom: 25px;
+}
+
+.patient-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 1rem;
+  color: #727272;
+  text-align: center;
+  background-color: #f9f9f9;
+
+
+}
+
+.patient-footer p {
+  color: rgb(0, 0, 0);
+  text-align: center;
+  margin: 0;
+}
+
+.patient-footer p:last-child {
+  margin-bottom: 0;
+}
+
+.patient-footer a {
+  color: #000000;
+  text-decoration: none;
+}
+
+br {
+  background-color: #f9f9f9;
+}

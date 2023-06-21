@@ -1,0 +1,197 @@
+{% extends "layout.html.twig" %}
+
+	{% block content %}
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-5">
+				<div id="patientContainer">
+					<h2 class="title-patient white">Patients</h2>
+					<button type="button" class="add-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#patientFormModal">Add new patient</button>
+					<a class="btn btn-secondary" onclick="changeIcon(event); loadPatients()" ><i  id="icon" class="bi bi-eye"></i></a>
+
+					<div class="modal fade" id="patientFormModal" tabindex="-1">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="exampleModalLabel">Add/Edit Patient</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<form>
+										<input type="hidden" value="0" id="patientId">
+										<div class="mb-3">
+											<label class="col-sm-2 col-form-label" for="firstname">Firstname</label>
+											<input type="text" class="form-control" id="firstname">
+											<span id="error-firstname" class="d-none fw-bold text-danger"></span>
+										</div>
+										<div class="mb-3">
+											<label class="col-sm-2 col-form-label" for="lastname">Lastname</label>
+											<input type="text" class="form-control" id="lastname">
+											<span id="error-lastname" class="d-none fw-bold text-danger"></span>
+										</div>
+										<div class="mb-3">
+											<label class="col-sm-2 col-form-label" for="street">Street</label>
+											<input type="text" class="form-control" id="street">
+											<span id="error-street" class="d-none fw-bold text-danger"></span>
+										</div>
+										<div class="mb-3">
+											<label class="col-sm-2 col-form-label" for="zip">Zip</label>
+											<input type="text" class="form-control" id="zip">
+											<span id="error-zip" class="d-none fw-bold text-danger"></span>
+										</div>
+										<div class="mb-3">
+											<label class="col-sm-2 col-form-label" for="place">Place</label>
+											<input type="text" class="form-control" id="place">
+											<span id="error-place" class="d-none fw-bold text-danger"></span>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="savePatient()">Save changes</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="patientShow" class="d-none">
+					<br>
+						<table class="table table-dark table-striped">
+							<thead>
+								<tr class="">
+									<th scope="col" class="col-1">Firstname</th>
+									<th scope="col" class="col-1">Lastname</th>
+									<th scope="col" class="col-1">Street</th>
+									<th scope="col" class="col-1">Zip</th>
+									<th scope="col" class="col-1">Place</th>
+									<th scope="col" class="col-1">Actions</th>
+								</tr>
+							</thead>
+							<tbody id="patientTableShow">
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-4">
+				<div id="appointmentContainer">
+					<h2 class=" white title-patient">Appointments</h2>
+					<button type="button" class="add-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointmentFormModal">Add new appointment</button>
+					<a class="btn btn-secondary" onclick="changeIcon2(event); loadAppointment()" ><i  id="icon2" class="bi bi-eye"></i></a>
+					<div class="modal fade" id="appointmentFormModal" tabindex="-1">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="exampleModalLabel">Add/Edit Appointment to patient</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<form>
+										<input type="hidden" value="0" id="appointmentId">
+										<div class="mb-3">
+											<label class="col-sm-2 col-form-label" for="patientSelect">Patient</label>
+											<select class="form-select" id="patientSelect">
+												<option value="">Select a patient</option>
+												{% for patient in patients %}
+												<option value="{{ patient.id }}">{{ patient.firstname }} {{ patient.lastname }}</option>
+												{% endfor %}
+											</select>
+											<span id="error-patient" class="d-none fw-bold text-danger"></span>
+										</div>
+										<div class="mb-3">
+											<label class="col-sm-2 col-form-label" for="start">Start</label>
+											<input type="datetime-local" class="form-control" id="start">
+											<span id="error-start" class="d-none fw-bold text-danger"></span>
+										</div>
+										<div class="mb-3">
+											<label class="col-sm-2 col-form-label" for="end">End</label>
+											<input type="datetime-local" class="form-control" id="end">
+											<span id="error-end" class="d-none fw-bold text-danger"></span>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="saveAppointment()">Save changes</button>
+								</div>
+							</div>
+						</div>
+					</div>
+			
+					<!-- appointment table view -->
+					<div id="appointmentShow" class="d-none">
+						<table class="table align-middle mt-4">
+							<thead>
+								<tr class="">
+									<th scope="col" class="col-1">Patient</th>
+									<th scope="col" class="col-1">Start</th>
+									<th scope="col" class="col-1">End</th>
+								</tr>
+							</thead>
+							<tbody id="appointmentTableShow">
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-3">
+				<div id="recordContainer" class="">
+					<h2 class=" white title-patient">Records</h2>
+			
+					<button type="button" class="add-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#recordModal">Add new record</button>
+			
+					<!-- Modal record-->
+					<div class="modal fade" id="recordModal" tabindex="-1">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="exampleModalLabel">Add Record to patient</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body" id="recordForm">
+									<form id="recordForm">
+										<input type="hidden" id="recordId">
+										<div class="mb-3">
+											<label class="col-sm-2 col-form-label" for="patientSelect">Patient</label>
+											<select class="form-select" id="patientSelect">
+												<option value="">Select a patient</option>
+												{% for patient in patients %}
+												<option value="{{ patient.id }}">{{ patient.firstname }} {{ patient.lastname }}</option>
+												{% endfor %}
+											</select>
+										</div>
+										<div class="mb-3">
+											<label class="col-sm-2 col-form-label" for="description">Description</label>
+											<textarea class="form-control" id="description"></textarea>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="saveArticle()">Save changes</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+	<br>
+	<hr>
+		<footer class="patient-footer fixed-bottom text-center text-lg-start bg-light text-muted">
+			<p class="text-footer">&copy; 2023 Informatikschule Olten GmbH</p>
+			<p>
+				<p>Hospital Management Projektarbeit</p>
+			</p>
+		</footer>
+	
+		<script type="text/javascript" src="resources/js/script.js"></script>
+	
+	{% endblock %}
+	
+		
+	
